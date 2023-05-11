@@ -47,6 +47,7 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
         # so we'll always allow GET, HEAD or OPTIONS requests.
         if request.method in permissions.SAFE_METHODS:
             return True
+        # print('----------------', obj.user, request.user)
         return obj.user == request.user
 
 
@@ -67,3 +68,27 @@ class ProductViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save()
+
+    # def update(self, request, *args, **kwargs):
+    #     instance = self.get_object()
+    #     if self.request.user.seller:
+    #         serializer = self.get_serializer(instance)
+    #         serializer.is_valid(raise_exception=True)
+    #         self.perform_create(serializer)
+    #         headers = self.get_success_headers(serializer.data)
+    #         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+    #     return Response({'Message': 'You have no permission to create'},
+    #                     status=status.HTTP_405_METHOD_NOT_ALLOWED)
+    # def perform_update(self, serializer):
+    #     serializer.save()
+
+    # def update(self, request, *args, **kwargs):
+    #     instance = self.get_object()
+    #     instance.name = request.data.get("name")
+    #     instance.save()
+    #
+    #     serializer = self.get_serializer(instance)
+    #     serializer.is_valid(raise_exception=True)
+    #     self.perform_update(serializer)
+    #
+    #     return Response(serializer.data)
