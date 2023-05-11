@@ -21,8 +21,11 @@ from django.contrib import admin
 from django.urls import path, include
 from django.urls import re_path as url
 
+from price.apps import PriceConfig
 from price.views import CustomAuthToken
 from rest_framework.authtoken import views
+app_name = PriceConfig.name
+
 urlpatterns = [
     path('', include('price.urls')),
     path('admin/', admin.site.urls),

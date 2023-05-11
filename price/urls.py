@@ -18,7 +18,8 @@ router.register('category', CategoryViewSet, basename='category')
 router.register('product', ProductViewSet, basename='product')
 
 urlpatterns = [
-               path('product_list/', ProductViewSet.as_view({'post': 'create', 'get': 'list'}), name='product_list'),
+               path('product_list/', ProductViewSet.as_view({'get': 'list'}), name='product_list'),
+               path('product_create/', ProductViewSet.as_view({'post': 'create'}), name='product_create'),
                path('product_detail/<int:pk>', ProductViewSet.as_view({
                                             'get': 'retrieve',
                                             'put': 'update',

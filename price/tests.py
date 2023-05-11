@@ -67,20 +67,24 @@ class CustomUserCreateTestCaseNewUser(APITestCase):
 
     def test_product_create(self):
         url = reverse('price:product_create')
-        print(self.user.pk)  # 107
+        # print(self.user.pk)  # 107
         data = {'user': self.user.pk,
                 'product_name': 'WWander',
                 'category': 1,
                 'product_description': 'Wondeful things',
-                'price_value': 10}
+                'price_value': 100}
         response = self.client.post(
             # response = factory.post(
             url, data, format='json'
         )
 
-        print('response.status_code', response.status_code)
+        d = Product.objects.all().get(user=self.user.pk)
+
         self.assertEqual(
             response.status_code,
             status.HTTP_201_CREATED
         )
-
+        self.assertEqual(
+            132,
+            d.price_value
+        )

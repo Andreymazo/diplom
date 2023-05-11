@@ -63,7 +63,6 @@ class CustomUser(AbstractUser):
     username = None
     email = models.EmailField(_('емэйл '), unique=True)
     seller = models.BooleanField(choices=STATUSES, verbose_name='Продавец', default=STATUS_SELLER)  # verbose_name='Продавец'
-    print('seller ---------------- ----------------')
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
@@ -112,7 +111,7 @@ class Category(models.Model):
 
 class Product(models.Model):
     # objects = ProductManager()
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="category", on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="user", on_delete=models.CASCADE)
     product_name = models.CharField(max_length=50, verbose_name='Наименование')
     product_description = models.CharField(max_length=200, verbose_name=" Описание", **NULLABLE)
     category = models.ForeignKey(Category, related_name="category", on_delete=models.CASCADE)
