@@ -47,9 +47,9 @@ urlpatterns = [
     path('', include('price.urls')),
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
-    # path('/rest-auth/login/', include('rest_auth.urls')),
+    path('api-auth/login/', include('rest_auth.urls')),
     path('rest-auth/registration/', include('rest_auth.registration.urls')),
-    # path('api-token-auth/', CustomAuthToken.as_view()),
+    path('api-token-auth/', CustomAuthToken.as_view()),
 
     path('api/v1/rest-auth/', include('rest_auth.urls')),
     path('api-token-auth/', views.obtain_auth_token),
@@ -64,6 +64,6 @@ urlpatterns += [
 
     # path('api-auth/login/', include('rest_framework.urls')),
     # path('/rest-auth/login/', include('rest_auth.urls')),
-    # path('rest-auth/registration/', include('rest_auth.registration.urls')),
+    path('rest-auth/registration/', include('rest_auth.registration.urls')),
     path('/api/v1/rest-auth/login/', include('rest_auth.urls'))
 ]

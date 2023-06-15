@@ -66,11 +66,11 @@ AUTHENTICATION_BACKENDS = [
 REST_AUTH_REGISTER_SERIALIZERS = {
     'REGISTER_SERIALIZER': 'price.serializers.CustomRegisterSerializer'
 }
-LOGIN_REDIRECT_URL = '/product_list'
+LOGIN_REDIRECT_URL = '/'
 ACCOUNT_USER_MODEL_USERNAME_FIELD = 'email'
-# ACCOUNT_AUTHENTICATION_METHOD = 'username'
-# ACCOUNT_EMAIL_VERIFICATION = 'none'
-
+ACCOUNT_AUTHENTICATION_METHOD = 'username'
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+ACCOUNT_EMAIL_REQUIRED = False
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
@@ -116,6 +116,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
         # 'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+        # 'rest_framework.permissions.AllowAny',
     ]
 
 }

@@ -1,22 +1,24 @@
 from rest_auth.registration.serializers import RegisterSerializer
 from rest_framework import serializers
-from price.models import CustomUser, Product, Category, tax, bank_comission, author_our_comission
+from price.models import CustomUser, Product, tax, bank_comission, author_our_comission
 
+
+##Category,
 
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ['seller', ]
+        fields = ['email', 'seller', ]
 
 
 class CustomRegisterSerializer(RegisterSerializer):
     seller = CustomUserSerializer(required=True)
 
 
-class CategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Category
-        fields = '__all__'
+# class CategorySerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Category
+#         fields = '__all__'
 
 
 class ProductSerializer(serializers.ModelSerializer):

@@ -95,19 +95,17 @@ class CustomUserUpdateTestCaseNewUser(APITestCase):
         self.client = APIClient()
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token.key)
 
-
     def test_product_update(self):
-
         response = self.client.put(
-                        '/product_detail/1',
+            '/product_detail/1',
 
-                        {'id': 1,
-                         'product_name': 'WWander',
-                         'user': 3,
-                         'category': 1,
-                         'product_description': 'Wondeful things',
-                         'price_value': 100
-                         })
+            {'id': 1,
+             'product_name': 'WWander',
+             'user': 3,
+             'category': 1,
+             'product_description': 'Wondeful things',
+             'price_value': 100
+             })
 
         d = Product.objects.all().get(user=3)
 

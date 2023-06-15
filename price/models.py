@@ -8,16 +8,10 @@ from config import settings
 
 NULLABLE = {'blank': True, 'null': True}
 
-
 tax = 10
 bank_comission = 2
 author_our_comission = 20
 
-def create_seller( seller):
-    print('seller', seller)
-    if not seller:
-        return seller
-    return seller
 
 class CustomUserManager(BaseUserManager):
     """
@@ -25,7 +19,7 @@ class CustomUserManager(BaseUserManager):
     for authentication instead of usernames.
     """
 
-    def create_user(self,  password, seller, **extra_fields):#email,
+    def create_user(self, password, seller, **extra_fields):  # email,
         """
         Create and save a User with the given email and password.
         """
@@ -33,12 +27,12 @@ class CustomUserManager(BaseUserManager):
         #     raise ValueError(_('The Email must be set'))
         # email = self.normalize_email(email)
         seller = self.create_seller(seller)
-        user = self.model(seller, **extra_fields)#email=email,
+        user = self.model(seller, **extra_fields)  # email=email,
         user.set_password(password)
         user.save()
         return user
 
-    def create_superuser(self,  password, **extra_fields):#email,
+    def create_superuser(self, password, **extra_fields):  # email,
         """
         Create and save a SuperUser with the given email and password.
         """
@@ -50,7 +44,7 @@ class CustomUserManager(BaseUserManager):
             raise ValueError(_('Superuser must have is_staff=True.'))
         if extra_fields.get('is_superuser') is not True:
             raise ValueError(_('Superuser must have is_superuser=True.'))
-        return self.create_user(password, **extra_fields)#email,
+        return self.create_user(password, **extra_fields)  # email,
 
 
 class CustomUser(AbstractUser):
@@ -62,7 +56,8 @@ class CustomUser(AbstractUser):
     )
     username = None
     email = models.EmailField(_('емэйл '), unique=True)
-    seller = models.BooleanField(choices=STATUSES, verbose_name='Продавец', default=STATUS_SELLER)  # verbose_name='Продавец'
+    seller = models.BooleanField(choices=STATUSES, verbose_name='Продавец',
+                                 default=STATUS_SELLER)  # verbose_name='Продавец'
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
@@ -82,6 +77,7 @@ class Category(models.Model):
     # default=0.00)  # IntegerField(validators=[MinValueValidator(0), MaxValueValidator(99)])
     profit = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(99)],
                                  **NULLABLE)  # DecimalField(decimal_places=2, max_digits=20,
+
     # default=0.00)  # IntegerField(validators=[MinValueValidator(0), MaxValueValidator(99)])
 
     def __str__(self):
@@ -139,7 +135,6 @@ class Product(models.Model):
     #     )
     #     product.save()
     #     print('test2')
-
 
 # product = Product.objects.create_product(
 #         user_id=1,
