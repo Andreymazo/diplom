@@ -1,4 +1,4 @@
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.reverse import reverse_lazy
 from price.models import CustomUser, Category, Product
@@ -54,40 +54,40 @@ class ProductViewSet(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
     permission_classes = (IsOwnerOrReadOnly,)
 
-####################### Ниже пока закомментирую, но вроде это лишнее.  permission_classes = (IsOwnerOrReadOnly,) работает
-# def create(self, request, *args, **kwargs):
-#     if self.request.user.seller:
-#         serializer = self.get_serializer(data=request.data)
-#         serializer.is_valid(raise_exception=True)
-#         self.perform_create(serializer)
-#         headers = self.get_success_headers(serializer.data)
-#         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
-#     return Response({'Message': 'You have no permission to create'},
-#                     status=status.HTTP_405_METHOD_NOT_ALLOWED)  # PermissionError('No chance to make a product')
-#
-# def perform_create(self, serializer):
-#     serializer.save()
+    ####################### Ниже пока закомментирую, но вроде это лишнее.  permission_classes = (IsOwnerOrReadOnly,) работает
+    def create(self, request, *args, **kwargs):
+        if self.request.user.seller and Product.user == self.request.user:#Надо одновременно быть продавцом и создавать только себе
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            self.perform_create(serializer)
+            headers = self.get_success_headers(serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        return Response({'Message': 'You have no permission to create'},
+                        status=status.HTTP_405_METHOD_NOT_ALLOWED)  # PermissionError('No chance to make a product')
 
-# def update(self, request, *args, **kwargs):
-#     instance = self.get_object()
-#     if self.request.user.seller:
-#         serializer = self.get_serializer(instance)
-#         serializer.is_valid(raise_exception=True)
-#         self.perform_create(serializer)
-#         headers = self.get_success_headers(serializer.data)
-#         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
-#     return Response({'Message': 'You have no permission to create'},
-#                     status=status.HTTP_405_METHOD_NOT_ALLOWED)
-# def perform_update(self, serializer):
-#     serializer.save()
-#
-# def update(self, request, *args, **kwargs):
-#     instance = self.get_object()
-#     instance.name = request.data.get("name")
-#     instance.save()
-#
-#     serializer = self.get_serializer(instance)
-#     serializer.is_valid(raise_exception=True)
-#     self.perform_update(serializer)
-#
-#     return Response(serializer.data)
+    def perform_create(self, serializer):
+        serializer.save()
+
+    # def update(self, request, *args, **kwargs):
+    #     instance = self.get_object()
+    #     if self.request.user.seller:
+    #         serializer = self.get_serializer(instance)
+    #         serializer.is_valid(raise_exception=True)
+    #         self.perform_create(serializer)
+    #         headers = self.get_success_headers(serializer.data)
+    #         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+    #     return Response({'Message': 'You have no permission to create'},
+    #                     status=status.HTTP_405_METHOD_NOT_ALLOWED)
+    # def perform_update(self, serializer):
+    #     serializer.save()
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.name = request.data.get("name")
+        instance.save()
+
+        serializer = self.get_serializer(instance)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+
+        return Response(serializer.data)

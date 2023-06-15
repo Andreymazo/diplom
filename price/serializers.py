@@ -28,6 +28,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         # print('============ validated_data.pop(price_value)', validated_data.pop('price_value'))
+
         user = validated_data.get("user", None)
         a = validated_data.pop('price_value')
         b = a / 100 * tax
