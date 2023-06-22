@@ -52,7 +52,7 @@ urlpatterns = [
     path('api-token-auth/', CustomAuthToken.as_view()),
 
     path('api/v1/rest-auth/', include('rest_auth.urls')),
-    path('api-token-auth/', views.obtain_auth_token),
+    # path('api-token-auth/', views.obtain_auth_token),
     ##When using TokenAuthentication, you may want to provide a mechanism for clients to obtain a token given the username and password. REST framework provides a built-in view to provide this behaviour. To use it, add the obtain_auth_token view to your URLconf
     re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     re_path(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),

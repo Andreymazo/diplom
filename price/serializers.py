@@ -28,7 +28,6 @@ class ProductSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         # print('============ validated_data.pop(price_value)', validated_data.pop('price_value'))
-
         user = validated_data.get("user", None)
         a = validated_data.pop('price_value')
         b = a / 100 * tax
@@ -38,27 +37,22 @@ class ProductSerializer(serializers.ModelSerializer):
         product_name = validated_data.get("product_name", None)
         product_description = validated_data.get("product_description", None)
         category = validated_data.get("category", None)
-
         return Product.objects.create(user=user, product_name=product_name, product_description=product_description,
                                       category=category, price_value=price_value)
 
     def update(self, instance, validated_data):
         if instance.user != validated_data['user']:
             instance.user = validated_data['user']
-
         if instance.price_value != validated_data['price_value']:
             a = validated_data['price_value']
             b = a / 100 * tax
             c = a / 100 * bank_comission
             d = a / 100 * author_our_comission
             instance.price_value = a + b + c + d
-
         if instance.product_name != validated_data['product_name']:
             instance.product_name = validated_data['product_name']
-
         if instance.product_description != validated_data['product_description']:
             instance.product_description = validated_data['product_description']
-
         if instance.category != validated_data['category']:
             instance.category = validated_data['category']
         instance.save()

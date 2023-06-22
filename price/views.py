@@ -8,8 +8,6 @@ from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 
 
-### CategorySerializer,
-
 class CustomAuthToken(ObtainAuthToken):
 
     def post(self, request, *args, **kwargs):
@@ -54,19 +52,30 @@ class ProductViewSet(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
     permission_classes = (IsOwnerOrReadOnly,)
 
-    ####################### Ниже пока закомментирую, но вроде это лишнее.  permission_classes = (IsOwnerOrReadOnly,) работает
     def create(self, request, *args, **kwargs):
-        if self.request.user.seller and Product.user == self.request.user:#Надо одновременно быть продавцом и создавать только себе
+        if self.request.user.seller and Product.user == self.request.user:  # Надо одновременно быть продавцом и создавать только себе
             serializer = self.get_serializer(data=request.data)
             serializer.is_valid(raise_exception=True)
             self.perform_create(serializer)
             headers = self.get_success_headers(serializer.data)
             return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
         return Response({'Message': 'You have no permission to create'},
-                        status=status.HTTP_405_METHOD_NOT_ALLOWED)  # PermissionError('No chance to make a product')
+                        status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
     def perform_create(self, serializer):
         serializer.save()
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.name = request.data.get("name")
+        instance.save()
+
+        serializer = self.get_serializer(instance)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+
+        return Response(serializer.data)
+
 
     # def update(self, request, *args, **kwargs):
     #     instance = self.get_object()
@@ -80,14 +89,3 @@ class ProductViewSet(viewsets.ModelViewSet):
     #                     status=status.HTTP_405_METHOD_NOT_ALLOWED)
     # def perform_update(self, serializer):
     #     serializer.save()
-
-    def update(self, request, *args, **kwargs):
-        instance = self.get_object()
-        instance.name = request.data.get("name")
-        instance.save()
-
-        serializer = self.get_serializer(instance)
-        serializer.is_valid(raise_exception=True)
-        self.perform_update(serializer)
-
-        return Response(serializer.data)
