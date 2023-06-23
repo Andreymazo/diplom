@@ -129,7 +129,7 @@ class Diplom_serializers(tk.Frame):
         canvas = tk.Canvas(self, width=650, height=350)
         canvas.pack()
         # Create a button to update the canvas image
-        function1 = [x for x in (self.photo1, self.photo2, self.photo3)]
+        function1 = [x for x in (self.photo2, self.photo3)]
         function = iter(function1)
         button = tk.Button(self, text="Refresh image",
                            command=lambda: self.update_image(next(function)))
@@ -178,7 +178,7 @@ class Diplom_Authentication(tk.Frame):
         canvas = tk.Canvas(self, width=650, height=350)
         canvas.pack()
         # Create a button to update the canvas image
-        function1 = [x for x in (self.photo1, self.photo2, self.photo3, self.photo4)]
+        function1 = [x for x in (self.photo2, self.photo3, self.photo4)]
         function = iter(function1)
         button = tk.Button(self, text="Refresh image",
                            command=lambda: self.update_image(next(function)))

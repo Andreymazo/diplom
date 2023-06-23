@@ -183,14 +183,14 @@ class Tz3_audio(tk.Frame):
 
         tk.Button(self, text="Return to start page", width=20, height=3, font=('times', 12, 'bold'),
                   command=lambda: master.switch_frame(StartPage)).place(x=50, y=-75)  # .pack(side=BOTTOM)
-        img1 = Image.open('media/tz4_audio_view.png')
+        img1 = Image.open('media/tz4_audio_url.png')
         img1 = img1.resize((700, 400), Image.ANTIALIAS)
         self.photo1 = ImageTk.PhotoImage(img1)
-        img2 = Image.open('media/tz4_audio_models.png')
+        img2 = Image.open('media/tz4_audio_view.png')
         img2 = img2.resize((700, 400), Image.ANTIALIAS)
         self.photo2 = ImageTk.PhotoImage(img2)
-        # img3 = Image.open('media/tz1_view_singletable2.png')
-        # self.photo3 = ImageTk.PhotoImage(img3)
+        img3 = Image.open('media/tz4_audio_models.png')
+        self.photo3 = ImageTk.PhotoImage(img3)
         # img4 = Image.open('media/tz1_view_search.png')
         # self.photo4 = ImageTk.PhotoImage(img4)
         # img5 = Image.open('media/tz1_filters.png')
@@ -201,17 +201,14 @@ class Tz3_audio(tk.Frame):
 
         # Create a canvas and add the image into it
         global canvas, image_container
-        canvas = tk.Canvas(self, width=650, height=350)
+        canvas = tk.Canvas(self, width=650, height=450)
         canvas.pack()
         # Create a button to update the canvas image
-        function1 = [x for x in (self.photo1, self.photo2)]
+        function1 = [x for x in (self.photo1, self.photo2, self.photo3)]
         function = iter(function1)
 
         button = tk.Button(self, text="Refresh image",
                            command=lambda: self.update_image(next(function)))
-        # if self.photo5:
-        #     button.configure(width = self.winfo_screenwidth())
-        #     button.pack()
         button.pack()
 
         self.image_container = canvas.create_image(0, 0, anchor="nw", image=self.photo1)
